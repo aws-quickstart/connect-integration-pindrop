@@ -34,6 +34,42 @@ Resources:
                 Resource: "*"
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  PindropValidateParameters:
+    Type: "AWS::Lambda::Function"
+    Properties:
+        Handler: "index.handler"
+        Runtime: "nodejs6.10"
+        FunctionName: "pindrop-validate-parameters"
+        Description: "Pindrop Validate Parameters"
+        MemorySize: 128
+        Timeout: 30
+        Role:
+          Fn::GetAtt:
+            - "PindropExecutionRole"
+            - "Arn"
+        Environment:
+          Variables:
+            apiToken: !Ref APIKey
+            BaseUrl: !Ref PBaseURL
+        Tags:
+          -
+            Key: "Service"
+            Value: "ContactCenter"
+        Code:
+          S3Bucket: quickstart-reference
+          S3Key:
+            Fn::Sub: connect/integration/pindrop/latest/scripts/packages/pdvalidate.zip
+  PindropValidateCallout:
+    Type: "Custom::PindropValidateCallout"
+    Properties:
+        Role:
+          Fn::GetAtt:
+              - "PindropExecutionRole"
+              - "Arn"
+        ServiceToken:
+          Fn::GetAtt:
+            - "PindropValidateParameters"
+            - "Arn"
   PindropCallStart:
     Type: "AWS::Lambda::Function"
     Properties:
