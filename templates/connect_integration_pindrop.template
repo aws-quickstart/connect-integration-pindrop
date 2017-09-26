@@ -37,7 +37,7 @@ Resources:
   PindropValidateParameters:
     Type: "AWS::Lambda::Function"
     Properties:
-        Handler: "index.handler"
+        Handler: "pdvalidate.handler"
         Runtime: "nodejs6.10"
         FunctionName: "pindrop-validate-parameters"
         Description: "Pindrop Validate Parameters"
@@ -73,7 +73,7 @@ Resources:
   PindropCallStart:
     Type: "AWS::Lambda::Function"
     Properties:
-        Handler: "index.handler"
+        Handler: "callstart.handler"
         Runtime: "nodejs6.10"
         FunctionName: "pindrop-call-start"
         Description: "Pindrop Call Start"
@@ -107,7 +107,7 @@ Resources:
   PindropFetchCall:
     Type: "AWS::Lambda::Function"
     Properties:
-        Handler: "index.handler"
+        Handler: "fetchcall.handler"
         Runtime: "nodejs6.10"
         FunctionName: "pindrop-fetch-call"
         Description: "Pindrop Fetch Call"

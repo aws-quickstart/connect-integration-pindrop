@@ -57,6 +57,11 @@ exports.handler = (event, context, callback) => {
         sendResponse(event, callback, context.logStreamName, 'SUCCESS', { Validated: "SUCCESS" });
     };
 
+    if (event.RequestType === 'Delete') {
+        handleSuccess();
+        return;
+    }
+
     const apiKey = process.env['apiToken'];
     const baseUrl = process.env['BaseUrl'];
 
