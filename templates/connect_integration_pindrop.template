@@ -1,0 +1,159 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Pindrop Integration for Amazon Connect Quickstart 1.3, August 2017"
+Parameters:
+  APIKey:
+    Type: String
+    Default: "Pindrop API Key"
+  PBaseURL:
+    Type: String
+    Default: "Pindrop Base URL"
+Resources:
+  PindropExecutionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          Effect: "Allow"
+          Principal:
+            Service:
+              - "lambda.amazonaws.com"
+          Action:
+            - "sts:AssumeRole"
+      Path: "/"
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                - "logs:PutLogEvents"
+                - "lambda:InvokeFunction"
+                - "lambda:GetFunctionConfiguration"
+                Resource: "*"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  PindropValidateParameters:
+    Type: "AWS::Lambda::Function"
+    Properties:
+        Handler: "pdvalidate.handler"
+        Runtime: "nodejs6.10"
+        FunctionName: "pindrop-validate-parameters"
+        Description: "Pindrop Validate Parameters"
+        MemorySize: 128
+        Timeout: 30
+        Role:
+          Fn::GetAtt:
+            - "PindropExecutionRole"
+            - "Arn"
+        Environment:
+          Variables:
+            apiToken: !Ref APIKey
+            BaseUrl: !Ref PBaseURL
+        Tags:
+          -
+            Key: "Service"
+            Value: "ContactCenter"
+        Code:
+          S3Bucket: quickstart-reference
+          S3Key:
+            Fn::Sub: connect/integration/pindrop/latest/scripts/packages/pdvalidate.zip
+  PindropValidateCallout:
+    Type: "Custom::PindropValidateCallout"
+    Properties:
+        Role:
+          Fn::GetAtt:
+              - "PindropExecutionRole"
+              - "Arn"
+        ServiceToken:
+          Fn::GetAtt:
+            - "PindropValidateParameters"
+            - "Arn"
+  PindropCallStart:
+    Type: "AWS::Lambda::Function"
+    Properties:
+        Handler: "callstart.handler"
+        Runtime: "nodejs6.10"
+        FunctionName: "pindrop-call-start"
+        Description: "Pindrop Call Start"
+        MemorySize: 128
+        Timeout: 30
+        Role:
+          Fn::GetAtt:
+            - "PindropExecutionRole"
+            - "Arn"
+        Environment:
+          Variables:
+            apiToken: !Ref APIKey
+            BaseUrl: !Ref PBaseURL
+        Tags:
+          -
+            Key: "Service"
+            Value: "ContactCenter"
+        Code:
+          S3Bucket: quickstart-reference
+          S3Key:
+            Fn::Sub: connect/integration/pindrop/latest/scripts/packages/callstart.zip
+  CallStartInvokePermission:
+    Type: "AWS::Lambda::Permission"
+    DependsOn: "PindropCallStart"
+    Properties:
+      FunctionName: "pindrop-call-start"
+      Action: 'lambda:InvokeFunction'
+      Principal: 'connect.amazonaws.com'
+      SourceAccount:
+        Ref: 'AWS::AccountId'
+  PindropFetchCall:
+    Type: "AWS::Lambda::Function"
+    Properties:
+        Handler: "fetchcall.handler"
+        Runtime: "nodejs6.10"
+        FunctionName: "pindrop-fetch-call"
+        Description: "Pindrop Fetch Call"
+        MemorySize: 128
+        Timeout: 30
+        Role:
+          Fn::GetAtt:
+            - "PindropExecutionRole"
+            - "Arn"
+        Environment:
+          Variables:
+            apiToken: !Ref APIKey
+            BaseUrl: !Ref PBaseURL
+        Tags:
+          -
+            Key: "Service"
+            Value: "ContactCenter"
+        Code:
+          S3Bucket: quickstart-reference
+          S3Key:
+            Fn::Sub: connect/integration/pindrop/latest/scripts/packages/fetchcall.zip
+  FetchCallInvokePermission:
+    Type: "AWS::Lambda::Permission"
+    DependsOn: "PindropFetchCall"
+    Properties:
+      FunctionName: "pindrop-fetch-call"
+      Action: 'lambda:InvokeFunction'
+      Principal: 'connect.amazonaws.com'
+      SourceAccount:
+        Ref: 'AWS::AccountId'
+Outputs:
+  PindropExecutionRole:
+    Description: "Lambda Function Execution Role"
+    Value:
+      Fn::GetAtt:
+        - "PindropExecutionRole"
+        - "Arn"
+  PindropCallStart:
+    Description: "Lambda Function for Pindrop Call Start"
+    Value:
+      Fn::GetAtt:
+        - "PindropCallStart"
+        - "Arn"
+  PindropFetchCall:
+    Description: "Lambda Function for Pindrop Fetch Call"
+    Value:
+      Fn::GetAtt:
+        - "PindropFetchCall"
+        - "Arn"
