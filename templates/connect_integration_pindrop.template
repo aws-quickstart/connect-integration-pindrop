@@ -3,10 +3,27 @@ Description: "Pindrop Integration for Amazon Connect Quickstart 1.3, August 2017
 Parameters:
   APIKey:
     Type: String
-    Default: "Pindrop API Key"
+    Default: Pindrop API Key
+    Description: API Key for Pindrop API invocations
   PBaseURL:
     Type: String
-    Default: "Pindrop Base URL"
+    Default: Pindrop Base URL
+    Description: Pindrop Base URL
+Rules:
+  ParameterDefaults:
+    Assertions:
+    - Assert:
+        Fn::Not:
+        - Fn::Equals:
+          - Ref: PBaseURL
+          - Pindrop Base URL
+      AssertDescription: Pindrop PBaseURL cannot be defaults
+    - Assert:
+        Fn::Not:
+        - Fn::Equals:
+          - Ref: APIKey
+          - Pindrop API Key
+      AssertDescription: Pindrop APIKey cannot be defaults
 Resources:
   PindropExecutionRole:
     Type: "AWS::IAM::Role"
@@ -58,7 +75,7 @@ Resources:
         Code:
           S3Bucket: quickstart-reference
           S3Key:
-            Fn::Sub: connect/integration/pindrop/latest/scripts/packages/pdvalidate.zip
+            Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration-test.zip
   PindropValidateCallout:
     Type: "Custom::PindropValidateCallout"
     Properties:
@@ -94,7 +111,7 @@ Resources:
         Code:
           S3Bucket: quickstart-reference
           S3Key:
-            Fn::Sub: connect/integration/pindrop/latest/scripts/packages/callstart.zip
+            Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration.zip
   CallStartInvokePermission:
     Type: "AWS::Lambda::Permission"
     DependsOn: "PindropCallStart"
@@ -128,7 +145,7 @@ Resources:
         Code:
           S3Bucket: quickstart-reference
           S3Key:
-            Fn::Sub: connect/integration/pindrop/latest/scripts/packages/fetchcall.zip
+            Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration.zip
   FetchCallInvokePermission:
     Type: "AWS::Lambda::Permission"
     DependsOn: "PindropFetchCall"
