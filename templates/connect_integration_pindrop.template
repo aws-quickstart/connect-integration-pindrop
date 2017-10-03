@@ -6,9 +6,11 @@ Parameters:
     Default: Pindrop API Key
     Description: API Key for Pindrop API invocations
   PBaseURL:
+    AllowedPattern: ^(?!http.*$).*    
+    ConstraintDescription: This must be a valid DNS hostname without the HTTPS
     Type: String
     Default: Pindrop Base URL
-    Description: Pindrop Base URL
+    Description: Pindrop Base Hostname. This is an endpoint for Pindrop Integration (e.g., api.auth.ivr.pindrop.com)
 Rules:
   ParameterDefaults:
     Assertions:
