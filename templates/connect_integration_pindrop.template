@@ -55,7 +55,6 @@ Resources:
     Properties:
       Handler: pdvalidate.handler
       Runtime: nodejs6.10
-      FunctionName: pindrop-validate-parameters
       Description: Pindrop Validate Parameters
       MemorySize: 128
       Timeout: 30
@@ -83,7 +82,6 @@ Resources:
     Properties:
       Handler: callstart.handler
       Runtime: nodejs6.10
-      FunctionName: pindrop-call-start
       Description: Pindrop Call Start
       MemorySize: 128
       Timeout: 30
@@ -103,7 +101,6 @@ Resources:
     Type: AWS::Lambda::Permission
     DependsOn: PindropCallStart
     Properties:
-      FunctionName: pindrop-call-start
       Action: lambda:InvokeFunction
       Principal: connect.amazonaws.com
       SourceAccount:
@@ -113,7 +110,6 @@ Resources:
     Properties:
       Handler: fetchcall.handler
       Runtime: nodejs6.10
-      FunctionName: pindrop-fetch-call
       Description: Pindrop Fetch Call
       MemorySize: 128
       Timeout: 30
@@ -133,7 +129,6 @@ Resources:
     Type: AWS::Lambda::Permission
     DependsOn: PindropFetchCall
     Properties:
-      FunctionName: pindrop-fetch-call
       Action: lambda:InvokeFunction
       Principal: connect.amazonaws.com
       SourceAccount:
