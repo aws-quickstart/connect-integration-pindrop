@@ -1,1 +1,1 @@
-# quickstart-connect-integration-pindrop
+# connect-integration-pindrop
