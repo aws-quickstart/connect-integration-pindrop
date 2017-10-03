@@ -75,7 +75,7 @@ Resources:
         Code:
           S3Bucket: quickstart-reference
           S3Key:
-            Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration-test.zip
+            Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration-test/pindrop-integration-test.zip
   PindropValidateCallout:
     Type: "Custom::PindropValidateCallout"
     Properties:
@@ -111,7 +111,7 @@ Resources:
         Code:
           S3Bucket: quickstart-reference
           S3Key:
-            Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration.zip
+            Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration/pindrop-integration.zip
   CallStartInvokePermission:
     Type: "AWS::Lambda::Permission"
     DependsOn: "PindropCallStart"
@@ -145,7 +145,7 @@ Resources:
         Code:
           S3Bucket: quickstart-reference
           S3Key:
-            Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration.zip
+            Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration/pindrop-integration.zip
   FetchCallInvokePermission:
     Type: "AWS::Lambda::Permission"
     DependsOn: "PindropFetchCall"
