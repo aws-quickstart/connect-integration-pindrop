@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Pindrop Integration for Amazon Connect Quick Start
+Description: Pindrop Integration for Amazon Connect Quick Start (qs-1no5j948j)
 Parameters:
   APIKey:
     Type: String
@@ -101,6 +101,8 @@ Resources:
     Type: AWS::Lambda::Permission
     DependsOn: PindropCallStart
     Properties:
+      FunctionName:
+        Ref: PindropCallStart
       Action: lambda:InvokeFunction
       Principal: connect.amazonaws.com
       SourceAccount:
@@ -129,6 +131,8 @@ Resources:
     Type: AWS::Lambda::Permission
     DependsOn: PindropFetchCall
     Properties:
+      FunctionName:
+        Ref: PindropFetchCall
       Action: lambda:InvokeFunction
       Principal: connect.amazonaws.com
       SourceAccount:
