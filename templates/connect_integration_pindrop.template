@@ -96,7 +96,7 @@ Resources:
       Code:
         S3Bucket: quickstart-reference
         S3Key:
-          Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration/pindrop-integration.zip
+          Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration-callstart/pindrop-integration-callstart.zip
   CallStartInvokePermission:
     Type: AWS::Lambda::Permission
     DependsOn: PindropCallStart
@@ -126,7 +126,7 @@ Resources:
       Code:
         S3Bucket: quickstart-reference
         S3Key:
-          Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration/pindrop-integration.zip
+          Fn::Sub: connect/integration/pindrop/latest/functions/packages/pindrop-integration-fetchcall/pindrop-integration-fetchcall.zip
   FetchCallInvokePermission:
     Type: AWS::Lambda::Permission
     DependsOn: PindropFetchCall
