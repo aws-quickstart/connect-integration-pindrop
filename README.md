@@ -5,6 +5,6 @@ Pindrop’s integration with Amazon Connect provides anti-fraud intelligence for
 
 ![Architecture for Pindrop integration](https://d0.awsstatic.com/partner-network/QuickStart/connect/connect-integration-pindrop-architecture.png)
 
-For details and launch information, see the [data sheet](https://aws.amazon.com/quickstart/connect/pindrop/).
+For details and launch information, see the [data sheet](https://fwd.aws/Gmbmw).
 
 To post feedback, submit feature ideas, or report bugs, use the **Issues** section of this GitHub repo.
