@@ -11,4 +11,4 @@ tests:
     regions:
     - us-east-1
     s3_bucket: ''
-    template: templates/pindrop.template
+    template: templates/pindrop.template.yaml
